@@ -1,0 +1,25 @@
+EXT 0x12
+MOV R0, #0x34 // R0: 0x1234 R0 = [b:a]
+EXT 0x56
+MOV R1, #0x78 // R1: 0x5678 R1 = [d:c]
+MOV R2, R0 // R2 := 0x1234
+MOVC1 R2, R1 // R2 := 0x34 x 0x78 which is R2 = [ac]
+LSR R3, R0, #8 // R3 = 0X0012 R3 = [0:b] used for bd at the end
+LSR R4, R1, #8 // R4 = 0X0056 R4 = [0:d] used for bd at the end
+MOV R5, R3 // R5 = [0:b]
+MOV R6, R4 // R6 = [0:d]
+MOVC1 R5, R1 // R5 = [bc]
+MOVC1 R6, R0 // R6 = [ad]
+MOV R7, #0 // R7 = 0 R7 will be used for our carryout from [ad+bc]
+ADD R5, R6 // R5 = [ad + bc] NOTE: R6 is now free to use. R5 used for LSL
+ADC R7, R7 // R7 = C
+MOV R6, R5 // R6 = [ad + bc] R6 used for LSR
+LSL R5, R5, #8 // added to [ac]
+LSR R6, R6, #8 // added to [bd] later
+LSL R7, R7, #8 // added to [bd] later
+MOVC1, R3, R4 // R3 = 0X12 X 0X56 which is [bd]
+ADD R2, R5
+ADC R3, R7
+ADD R3, R6
+
+

@@ -1,0 +1,13 @@
+MOV R0, #0 // R0 := SUM
+MOV R1, #12 // R1 := OP1
+MOV R2, #5 // R2 := OP2
+MOV R3, R2 // R3 := OP2_SHIFTED
+MOV R4, #1 // Placeholder for value 1
+MOV R1, R1 // Set FlagZ according to OP1 value
+JEQ 7 // Skip loop if Z = 1 as OP1 = 0
+AND R5, R1, R4 // R5 := OP1 & 1, set FlagZ
+JEQ 2 // Skip sum if Z = 1 as OP1&1 = 0
+ADD R0, R0, R3 // R0 := R0 + R3
+LSL, R3, R3, #1 // R3 := R3 x 2
+LSR, R1, R1, #1 // R1 := R1 / 2
+JMP -7 // Repeat loop by setting FlagZ

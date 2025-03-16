@@ -1,0 +1,3 @@
+MOV R0, #127 // Testing literal MOV
+MOV R1, R0 // Testing register MOV
+MOVC1 R1, R0 // Testing multiplication
